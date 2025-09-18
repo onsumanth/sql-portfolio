@@ -20,3 +20,11 @@ WHERE
         SELECT MAX(open) 
         FROM aapl_historical_stock_price
     );
+
+
+
+--- OTHER METHOD 
+select date 
+from aapl_historical_stock_price
+order by open desc
+limit 1;
