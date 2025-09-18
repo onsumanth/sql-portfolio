@@ -17,14 +17,23 @@
 
 --- METHOD 1
 
-SELECT id, first_name, last_name, department_id, salary AS current_salary
+SELECT 
+    id, 
+    first_name, 
+    last_name, 
+    department_id, 
+    salary AS current_salary
 FROM (
-  SELECT id, first_name, last_name, department_id, salary,
-         ROW_NUMBER() OVER (PARTITION BY id ORDER BY salary DESC) AS rn
-  FROM ms_employee_salary
+    SELECT *,
+           ROW_NUMBER() OVER (
+               PARTITION BY id 
+               ORDER BY salary DESC, department_id DESC
+           ) AS rn
+    FROM ms_employee_salary
 ) AS ranked
 WHERE rn = 1
 ORDER BY id;
+
 
 
 
