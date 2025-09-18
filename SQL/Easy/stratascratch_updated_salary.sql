@@ -15,6 +15,8 @@
 -- Use ROW_NUMBER() to rank salary records per employee.
 -- Select only the top-ranked (latest) salary for each employee.
 
+--- METHOD 1
+
 SELECT id, first_name, last_name, department_id, salary AS current_salary
 FROM (
   SELECT id, first_name, last_name, department_id, salary,
@@ -23,3 +25,30 @@ FROM (
 ) AS ranked
 WHERE rn = 1
 ORDER BY id;
+
+
+
+
+--- METHOD 2 
+
+
+SELECT 
+  id,
+  first_name,
+  last_name,
+  department_id,
+  MAX(salary) AS current_salary
+FROM 
+  ms_employee_salary
+GROUP BY 
+  id,
+  first_name,
+  last_name,
+  department_id
+ORDER BY 
+  id ASC;
+
+
+
+
+
