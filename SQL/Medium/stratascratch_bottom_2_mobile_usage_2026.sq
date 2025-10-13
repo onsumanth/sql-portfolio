@@ -1,0 +1,36 @@
+-- Problem: Bottom 2 Companies By Mobile Usage  
+-- Source: StrataScratch (ID: 2026)  
+-- Date Solved: 13 October 2025  
+-- Difficulty: Medium  
+
+-- Question:  
+-- Write a query to identify all companies (customer_id) whose mobile usage ranks in the bottom two positions.  
+-- Mobile usage is the count of events where client_id = 'mobile'.  
+-- Companies with the same usage count should share the same rank, and all companies in the bottom two ranks should be included.  
+-- Return the customer_id and event count, sorted in ascending order by the number of events.  
+
+-- Table:  
+-- fact_events(client_id, customer_id, event_id, event_type, id, time_id, user_id)  
+
+-- SQL Query:
+WITH mobile_usage AS (
+    SELECT 
+        customer_id,
+        COUNT(*) AS event_count
+    FROM fact_events
+    WHERE client_id = 'mobile'
+    GROUP BY customer_id
+),
+ranked_usage AS (
+    SELECT 
+        customer_id,
+        event_count,
+        DENSE_RANK() OVER (ORDER BY event_count ASC) AS usage_rank
+    FROM mobile_usage
+)
+SELECT 
+    customer_id,
+    event_count
+FROM ranked_usage
+WHERE usage_rank <= 2
+ORDER BY event_count ASC;
