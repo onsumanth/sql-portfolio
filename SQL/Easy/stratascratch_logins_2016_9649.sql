@@ -18,3 +18,9 @@ FROM
     product_logins 
 WHERE 
     YEAR(login_date) = 2016;
+
+
+SELECT COUNT(DISTINCT account_id) AS num_accounts_2016
+FROM product_logins
+WHERE login_date >= '2016-01-01'
+  AND login_date < '2017-01-01';
