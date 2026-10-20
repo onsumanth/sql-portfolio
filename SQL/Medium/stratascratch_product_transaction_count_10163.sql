@@ -14,16 +14,13 @@
 -- excel_sql_transaction_data(product_id, transaction_id, time)  
 
 -- SQL Query:
-SELECT 
-    i.product_name, 
-    t.transaction_count
-FROM (
-    SELECT 
-        product_id, 
-        COUNT(*) AS transaction_count
-    FROM excel_sql_transaction_data
-    GROUP BY product_id
-) t
-JOIN excel_sql_inventory_data i
-ON t.product_id = i.product_id
-ORDER BY i.product_id;
+
+
+SELECT
+    i.product_name,
+    COUNT(*) AS transaction_count
+FROM excel_sql_inventory_data AS i
+JOIN excel_sql_transaction_data AS t
+    ON i.product_id = t.product_id
+GROUP BY i.product_id, i.product_name
+ORDER BY i.product_id ASC;
